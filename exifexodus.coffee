@@ -15,7 +15,7 @@ jpgQual    = 1
 headerSize = 'data:image/jpeg;base64,'.length
 cleaned    = {}
 frMethods  = {}
-
+fdAppend   = FormData::append
 
 for method in ['readAsDataURL', 'readAsArrayBuffer', 'readAsBinaryString', 'readAsText']
   do (method) ->
@@ -30,6 +30,13 @@ for method in ['readAsDataURL', 'readAsArrayBuffer', 'readAsBinaryString', 'read
         fn()
       else
         cleaned[file[ns]].queue.push fn
+
+
+FormData::append = (key, val, filename) ->
+  if val instanceof File and val[ns]
+    fdAppend.call @, key, cleaned[file[ns]].blob, filename
+  else
+    fdAppend.apply @, arguments
 
 
 onChange = (e) ->
