@@ -121,7 +121,13 @@ onSubmit = (e) ->
 reportErr = (msg) -> alert 'ExifExodus: ' + msg
 
 
-document.addEventListener 'DOMContentLoaded', ->
+init = ->
   addEventListener 'change', onChange, true
   addEventListener 'submit', onSubmit, true
+
+
+if document.readyState is 'complete'
+  init()
+else
+  document.addEventListener 'DOMContentLoaded', init
 
