@@ -3,6 +3,12 @@
 # http://oxism.com
 
 
+for cons in ['FileReader', 'FormData', 'Uint8Array', 'ArrayBuffer', 'Blob']
+  unless cons of window
+    reportErr "Your browser is too old to support ExifExodus. (Missing #{ cons } support)"
+    return false
+
+
 ns         = 'exifexodus'
 jpgType    = 'image/jpeg'
 jpgQual    = 1
@@ -113,12 +119,6 @@ onSubmit = (e) ->
 
 
 reportErr = (msg) -> alert 'ExifExodus: ' + msg
-
-
-for cons in ['FileReader', 'FormData', 'Uint8Array', 'ArrayBuffer', 'Blob']
-  unless cons of window
-    reportErr "Your browser is too old to support ExifExodus. (Missing #{ cons } support)"
-    return false
 
 
 document.addEventListener 'DOMContentLoaded', ->
