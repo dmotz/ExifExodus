@@ -15,122 +15,131 @@ jpgQual    = 1
 headerSize = 'data:image/jpeg;base64,'.length
 cleaned    = {}
 frMethods  = {}
+xhrSend    = XMLHttpRequest::send
 fdAppend   = FormData::append
+
 
 for method in ['readAsDataURL', 'readAsArrayBuffer', 'readAsBinaryString', 'readAsText']
   do (method) ->
     frMethods[method] = FileReader::[method]
     FileReader::[method] = (file, enc) ->
-      unless file[ns]
+      unless file.type is jpgType
         return frMethods[method].call @, file
 
-      fn = => frMethods[method].call @, cleaned[file[ns]].blob, enc
+      cleanImage file, (blob) => frMethods[method].call @, blob, enc
 
-      if file[ns + 'ready']
-        fn()
+
+XMLHttpRequest::send = (data) ->
+  if data instanceof FormData and data[ns]
+    jpgs     = []
+    formData = new FormData
+    for key, val of data[ns]
+      if val.file and val.file instanceof File
+        jpgs.push val
       else
-        cleaned[file[ns]].queue.push fn
+        fdAppend.call formData, key, val
+
+    if jpgs.length
+      toClean = jpgs.length
+      for jpg in jpgs then do (jpg) =>
+        cleanImage jpg.file, (blob) =>
+          fdAppend.call formData, jpg.name, blob, jpg.filename
+          unless --toClean
+            xhrSend.call @, formData
+
+      undefined
+
+    else
+      xhrSend.apply @, arguments
+
+  else
+    xhrSend.apply @, arguments
+
 
 
 FormData::append = (key, val, filename) ->
-  if val instanceof File and val[ns]
-    fdAppend.call @, key, cleaned[file[ns]].blob, filename
+  @[ns] or= {}
+  @[ns][key] = if val instanceof File
+    obj = {}
+    obj[ns] = {name: key, file: val, filename}
   else
-    fdAppend.apply @, arguments
+    val
+
+  fdAppend.apply @, arguments
 
 
-onChange = (e) ->
-  input      = e.target
-  formMarked = false
+HTMLFormElement::submit = -> onSubmit target: @
 
-  return true if input.type isnt 'file'
 
-  for file in input.files then do (file) ->
-    return if file.type isnt jpgType
-    nonce  = (Math.random() * 1e16).toString 36
-    reader = new FileReader
+cleanImage = (file, cb) ->
+  reader = new FileReader
+  reader.addEventListener 'load', ->
+    img = new Image
+    img.addEventListener 'load', ->
+      {width, height} = img
+      canvas          = document.createElement 'canvas'
+      canvas.width    = width
+      canvas.height   = height
 
-    unless formMarked
-      formMarked = true
-      parent     = input.parentNode
-      loop
-        break unless parent
-        if parent.tagName.toLowerCase() is 'form'
-          parent.dataset[ns] = true
-          break
+      canvas.getContext('2d').drawImage img, 0, 0, width, height
+      canvas.getContext('2d').fillStyle = 'rgb(255,0,255)'
+      canvas.getContext('2d').fillRect 0, 0, width, height
 
-        parent = parent.parentNode
+      binary  = atob canvas.toDataURL(jpgType, jpgQual)[headerSize...]
+      len     = binary.length
+      view    = new Uint8Array new ArrayBuffer len
+      view[i] = binary.charCodeAt i for i in [0...len]
 
-    reader.addEventListener 'load', (e) ->
-      img = new Image
-      img.addEventListener 'load', ->
-        {width, height}   = img
-        canvas            = document.createElement 'canvas'
-        canvas.width      = width
-        canvas.height     = height
-        input.dataset[ns] = nonce
+      cb new Blob [view.buffer], type: jpgType
 
-        canvas.getContext('2d').drawImage img, 0, 0, width, height
+    img.src = reader.result
 
-        binary  = atob canvas.toDataURL(jpgType, jpgQual)[headerSize...]
-        len     = binary.length
-        view    = new Uint8Array new ArrayBuffer len
-        view[i] = binary.charCodeAt i for i in [0...len]
-
-        cleaned[nonce].blob = new Blob [view.buffer], type: jpgType
-        file[ns + 'ready']  = true
-        fn() for fn in cleaned[nonce].queue
-
-      img.src = reader.result
-
-    cleaned[nonce]     = queue: [], name: file.name
-    file[ns]           = nonce
-    file[ns + 'ready'] = false
-    frMethods.readAsDataURL.call reader, file
+  frMethods.readAsDataURL.call reader, file
 
 
 onSubmit = (e) ->
-  form = e.target
-  return true unless form.dataset[ns]
-  e.preventDefault()
-  e.stopPropagation()
+  form     = e.target
+  inputs   = form.querySelectorAll 'input'
+  jpgs     = []
+  formData = new FormData
+
+  for input in inputs when input.value
+    if input.type is 'file'
+      for file in input.files
+        jpgs.push {file, name: input.name} if file.type is jpgType
+    else
+      fdAppend.call formData, input.name, input.value
+
+
+  if jpgs.length
+    e.preventDefault()
+    e.stopImmediatePropagation()
 
   if !form.action
     return reportErr 'Can\'t proceed, the upload form has no action URL.'
 
-  formData = new FormData
-  inputs   = form.querySelectorAll 'input'
+  toClean = jpgs.length
 
-  for input in inputs when input.value
-    if input.dataset[ns]
-      val      = cleaned[input.dataset[ns]].blob
-      filename = cleaned[input.dataset[ns]].name
-    else
-      val = input.value
+  for jpg in jpgs then do (jpg) ->
+    cleanImage jpg.file, (blob) ->
+      fdAppend.call formData, jpg.name, blob, jpg.file.name
+      unless --toClean
+        xhr = new XMLHttpRequest
 
-    formData.append input.name, val, filename
+        xhr.onreadystatechange = ->
+          document.write xhr.response if xhr.readyState is 4
 
-  xhr = new XMLHttpRequest
-  xhr.onreadystatechange = (e) ->
-    if xhr.readyState is 4
-      if xhr.responseURL
-        window.location = xhr.responseURL
-      else
-        document.write xhr.response
+        xhr.onerror = ->
+          reportErr 'Something went wrong submitting the upload form.'
 
-  xhr.onerror = ->
-    reportErr 'Something went wrong submitting the upload form.'
-
-  xhr.open form.method or 'GET', form.action
-  xhr.send formData
+        xhr.open form.method or 'GET', form.action
+        xhrSend.call xhr, formData
 
 
 reportErr = (msg) -> alert 'ExifExodus: ' + msg
 
 
-init = ->
-  addEventListener 'change', onChange, true
-  addEventListener 'submit', onSubmit, true
+init = -> addEventListener 'submit', onSubmit, true
 
 
 if document.readyState is 'complete'
