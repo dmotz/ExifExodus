@@ -111,7 +111,7 @@ onSubmit = (e) ->
       fdAppend.call formData, input.name, input.value
 
 
-  if jpgs.length
+  if jpgs.length and e instanceof Event
     e.preventDefault()
     e.stopImmediatePropagation()
 
