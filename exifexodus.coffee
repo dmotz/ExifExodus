@@ -132,7 +132,18 @@ onSubmit = (e) ->
         xhr = new XMLHttpRequest
 
         xhr.onreadystatechange = ->
-          document.write xhr.response if xhr.readyState is 4
+          if xhr.readyState is 4
+            unless 200 >= xhr.status < 300
+              return reportErr "
+                Attempted upload of EXIF-free image but received an error
+                response from the server (code #{ xhr.status }).
+                "
+
+            if xhr.responseType is 'document' or /<[\w\W]*>/.test xhr.responseText
+              document.write xhr.response
+            else
+              reportErr 'Uploaded image but received ambiguous response from server.'
+
 
         xhr.onerror = ->
           reportErr 'Something went wrong submitting the upload form.'
