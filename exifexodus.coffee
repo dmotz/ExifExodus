@@ -103,6 +103,7 @@ onSubmit = (e) ->
   form     = if isEvent then e.target else @
   inputs   = form.querySelectorAll 'input'
   jpgs     = []
+  cleaned  = []
   formData = new FormData
 
   for input in inputs when input.value
@@ -121,12 +122,13 @@ onSubmit = (e) ->
     e.stopImmediatePropagation()
 
   if !form.action
-    return reportErr 'Can\'t proceed, the upload form has no action URL.'
+    return reportErr 'Can\'t proceed, the upload form has no action URL.', cleaned
 
   toClean = jpgs.length
 
   for jpg in jpgs then do (jpg) ->
     cleanImage jpg.file, (blob) ->
+      cleaned.push blob
       fdAppend.call formData, jpg.name, blob, jpg.file.name
       unless --toClean
         xhr = new XMLHttpRequest
@@ -135,24 +137,29 @@ onSubmit = (e) ->
           if xhr.readyState is 4
             unless 200 >= xhr.status < 300
               return reportErr "
-                Attempted upload of EXIF-free image but received an error
-                response from the server (code #{ xhr.status }).
-                "
+                Attempted upload of EXIF-free images but received an error
+                response from the server (code #{ xhr.status }).", cleaned
 
             if xhr.responseType is 'document' or /<[\w\W]*>/.test xhr.responseText
               document.write xhr.response
             else
-              reportErr 'Uploaded image but received ambiguous response from server.'
+              reportErr 'Uploaded image but received ambiguous response from server.', cleaned
 
 
         xhr.onerror = ->
-          reportErr 'Something went wrong submitting the upload form.'
+          reportErr 'Something went wrong submitting the upload form.', cleaned
 
         xhr.open form.method or 'GET', form.action
         xhrSend.call xhr, formData
 
 
-reportErr = (msg) -> alert 'ExifExodus: ' + msg
+reportErr = (msg, imgSet) ->
+  if imgSet
+    if confirm "ExifExodus: #{ msg } Click OK to open your EXIF-free images in new tabs."
+      open URL.createObjectURL(blob), '_blank' for blob in imgSet
+      null
+  else
+    alert 'ExifExodus: ' + msg
 
 
 init = -> addEventListener 'submit', onSubmit, true
