@@ -17,6 +17,7 @@ cleaned    = {}
 frMethods  = {}
 xhrSend    = XMLHttpRequest::send
 fdAppend   = FormData::append
+formSubmit = HTMLFormElement::submit
 
 
 for method in ['readAsDataURL', 'readAsArrayBuffer', 'readAsBinaryString', 'readAsText']
@@ -68,7 +69,7 @@ FormData::append = (key, val, filename) ->
   fdAppend.apply @, arguments
 
 
-HTMLFormElement::submit = -> onSubmit target: @
+HTMLFormElement::submit = -> onSubmit.call @
 
 
 cleanImage = (file, cb) ->
@@ -98,7 +99,8 @@ cleanImage = (file, cb) ->
 
 
 onSubmit = (e) ->
-  form     = e.target
+  isEvent  = e instanceof Event
+  form     = if isEvent then e.target else @
   inputs   = form.querySelectorAll 'input'
   jpgs     = []
   formData = new FormData
@@ -110,8 +112,11 @@ onSubmit = (e) ->
     else
       fdAppend.call formData, input.name, input.value
 
+  unless jpgs.length
+    formSubmit.call @ unless isEvent
+    return
 
-  if jpgs.length and e instanceof Event
+  if isEvent
     e.preventDefault()
     e.stopImmediatePropagation()
 
