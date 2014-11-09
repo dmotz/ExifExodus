@@ -121,7 +121,7 @@ onSubmit = (e) ->
     e.preventDefault()
     e.stopImmediatePropagation()
 
-  if !form.action
+  unless action = form.getAttribute 'action'
     return reportErr 'Can\'t proceed, the upload form has no action URL.', cleaned
 
   toClean = jpgs.length
@@ -149,7 +149,7 @@ onSubmit = (e) ->
         xhr.onerror = ->
           reportErr 'Something went wrong submitting the upload form.', cleaned
 
-        xhr.open form.method or 'GET', form.action
+        xhr.open form.getAttribute('method') or 'GET', action
         xhrSend.call xhr, formData
 
 
