@@ -141,6 +141,10 @@ onSubmit = (e) ->
                 response from the server (code #{ xhr.status }).", cleaned
 
             if xhr.responseType is 'document' or /<[\w\W]*>/.test xhr.responseText
+              if target = form.getAttribute 'target'
+                unless target in ['_blank', '_self', '_parent', '_top']
+                  return document.getElementById(target)?.innerHTML = xhr.response
+
               document.write xhr.response
             else
               reportErr 'Uploaded image but received ambiguous response from server.', cleaned
