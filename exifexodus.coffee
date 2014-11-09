@@ -16,6 +16,7 @@ headerSize = 'data:image/jpeg;base64,'.length
 cleaned    = {}
 frMethods  = {}
 xhrSend    = XMLHttpRequest::send
+xhrOpen    = XMLHttpRequest::open
 fdAppend   = FormData::append
 formSubmit = HTMLFormElement::submit
 
@@ -56,6 +57,9 @@ XMLHttpRequest::send = (data) ->
   else
     xhrSend.apply @, arguments
 
+
+XMLHttpRequest::open = (method, url) ->
+  xhrOpen.apply @, arguments unless url?[...5] is 'blob:'
 
 
 FormData::append = (key, val, filename) ->
@@ -153,7 +157,7 @@ onSubmit = (e) ->
         xhr.onerror = ->
           reportErr 'Something went wrong submitting the upload form.', cleaned
 
-        xhr.open form.getAttribute('method') or 'GET', action
+        xhrOpen.call xhr, form.getAttribute('method') or 'GET', action
         xhrSend.call xhr, formData
 
 
