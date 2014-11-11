@@ -1,7 +1,9 @@
+###
 # ExifExodus
+# 0.0.0
 # Dan Motzenbecker
 # http://oxism.com
-
+###
 
 for cons in ['FileReader', 'FormData', 'Uint8Array', 'ArrayBuffer', 'Blob']
   unless cons of window
@@ -87,8 +89,6 @@ cleanImage = (file, cb) ->
       canvas.height   = height
 
       canvas.getContext('2d').drawImage img, 0, 0, width, height
-      canvas.getContext('2d').fillStyle = 'rgb(255,0,255)'
-      canvas.getContext('2d').fillRect 0, 0, width, height
 
       binary  = atob canvas.toDataURL(jpgType, jpgQual)[headerSize...]
       len     = binary.length
