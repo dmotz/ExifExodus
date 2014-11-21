@@ -5,7 +5,8 @@
 # http://oxism.com
 ###
 
-for cons in ['FileReader', 'FormData', 'Uint8Array', 'ArrayBuffer', 'Blob', 'URL', 'Worker']
+for cons in ['HTMLCanvasElement', 'FileReader', 'FormData',
+             'Uint8Array', 'ArrayBuffer', 'Blob', 'URL', 'Worker']
   unless cons of window
     reportErr "Your browser is too old to support ExifExodus. (Missing #{ cons } support)"
     return false
