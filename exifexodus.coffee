@@ -79,17 +79,19 @@ FormData::append = (key, val, filename) ->
 HTMLFormElement::submit = -> onSubmit.call @
 
 
-createBlob = ->
-  self.onmessage = (e) ->
-    binary  = e.data
-    len     = binary.length
-    view    = new Uint8Array new ArrayBuffer len
-    view[i] = binary.charCodeAt i for i in [0...len]
-    self.postMessage new Blob [view.buffer], type: 'image/jpeg'
-    self.close()
+unless 'toBlob' of HTMLCanvasElement::
+  createBlob = ->
+    self.onmessage = (e) ->
+      binary  = e.data
+      len     = binary.length
+      view    = new Uint8Array new ArrayBuffer len
+      view[i] = binary.charCodeAt i for i in [0...len]
+      self.postMessage new Blob [view.buffer], type: 'image/jpeg'
+      self.close()
 
 
-blobWorker = URL.createObjectURL new Blob ["(#{createBlob.toString()})()"], type: 'application/javascript'
+  blobWorker = URL.createObjectURL new Blob ["(#{createBlob.toString()})()"],
+    type: 'application/javascript'
 
 
 cleanImage = (file, cb) ->
@@ -103,9 +105,13 @@ cleanImage = (file, cb) ->
       canvas.height   = height
 
       canvas.getContext('2d').drawImage img, 0, 0, width, height
-      worker = new Worker blobWorker
-      worker.onmessage = (e) -> cb e.data
-      worker.postMessage atob canvas.toDataURL(jpgType, jpgQual)[headerSize...]
+
+      if canvas.toBlob
+        canvas.toBlob cb, jpgType, jpgQual
+      else
+        worker = new Worker blobWorker
+        worker.onmessage = (e) -> cb e.data
+        worker.postMessage atob canvas.toDataURL(jpgType, jpgQual)[headerSize...]
 
     img.src = reader.result
 
