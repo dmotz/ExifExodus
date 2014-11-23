@@ -90,7 +90,7 @@ unless 'toBlob' of HTMLCanvasElement::
       self.close()
 
 
-  blobWorker = URL.createObjectURL new Blob ["(#{createBlob.toString()})()"],
+  blobWorker = URL.createObjectURL new Blob ["(#{ createBlob.toString() })()"],
     type: 'application/javascript'
 
 
