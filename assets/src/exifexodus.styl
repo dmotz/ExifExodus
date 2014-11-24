@@ -48,8 +48,10 @@ body
   margin-top 4rem
   width 100%
 
+
 h1, h2, h3
   font-family $advBold
+
 
 h1
   font-size 12rem
@@ -82,6 +84,25 @@ h4
 section
   position relative
   clear both
+
+
+#fork-me
+  position absolute
+  top 4rem
+  left -6rem
+  font-size 2rem
+  transform: rotate(-45deg)
+  overflow hidden
+
+  a
+    font-family monospace
+    color #fff
+    background-color #444
+    padding 0.5rem 7rem
+    display inline-block
+
+    &:hover
+      opacity .8
 
 
 #actions
@@ -244,6 +265,10 @@ footer
 
   h2
     width 100%
+
+
+  #fork-me
+    display none
 
 
   #photo-drop, #bookmarklet
