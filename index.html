@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="ExifExodus removes EXIF / geotag data from your photos">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="author" content="Dan Motzenbecker">
+  <link href="assets/css/exifexodus.css" rel="stylesheet" type="text/css">
+  <link href="assets/images/favicon.png" rel="icon" type="image/png">
+  <link href="assets/images/favicon-152.png" rel="apple-touch-icon-precomposed">
+  <title>ExifExodus</title>
+</head>
+
+<body>
+
+  <section>
+    <img id="logo" src="assets/images/logo.svg">
+    <h2>
+      <em>Clean up your trail of breadcrumbs:</em>
+      <br>
+      Remove geotag data from your photos before you upload them.
+    </h2>
+    <h2></h2>
+  </section>
+
+  <section id="actions">
+    <div id="photo-drop">
+      <p>Drop JPG files here to remove EXIF / geotagging data.</p>
+      <div>+</div>
+    </div>
+
+    <div id="bookmarklet">
+      &hellip;or drag this bookmarklet to your bookmarks bar:
+      <br>
+      <a href="javascript:(function(d){d.body.appendChild(d.createElement('script')).src='http://exifexodus.com/assets/js/exifexodus.min.js'})(document)"
+        id="bookmarklet-btn" title="ExifExodus">ExifExodus</a>
+      <br>
+      Then click it before you upload photos on a site.
+    </div>
+  </section>
+
+  <br>
+
+  <section id="output" class="hidden">
+    <h2>Save these copies (the EXIF data has been removed):</h2>
+  </section>
+
+  <br>
+
+  <section>
+    <h3>What is EXIF?</h3>
+    <p>
+      <a href="http://en.wikipedia.org/wiki/Exchangeable_image_file_format">EXIF</a>
+      is a type of metadata that is embedded in photo files from most types
+      of cameras and phones.
+    </p>
+
+    <p>
+      This metadata includes information about the device used to capture the photo,
+      but also often includes the GPS coordinates of where the photo was taken.
+    </p>
+
+    <p>
+      Many users unknowingly share this information with the general public
+      and site/app owners when uploading photos online.
+    </p>
+
+    <p>
+      This has been a common vector of privacy lapses, including cases where
+      journalists have unintentionally published photos with geotagging data intact.
+    </p>
+
+    <p>
+      Recent press has also revealed the NSA&rsquo;s collection of EXIF data in
+      its <a href="http://en.wikipedia.org/wiki/XKeyscore">XKeyscore</a> program.
+    </p>
+
+    <p>Here&rsquo;s an example of some EXIF geolocation data pulled from an iPhone photo:</p>
+<pre>
+GPS Latitude Ref      : North
+GPS Longitude Ref     : West
+GPS Altitude Ref      : Above Sea Level
+GPS Time Stamp        : 17:34:20.54
+GPS Img Direction Ref : True North
+GPS Img Direction     : 273.6840149
+GPS Altitude          : 60.1 m Above Sea Level
+GPS Latitude          : 40 deg 41' 21.30" N
+GPS Longitude         : 74 deg 2' 40.33" W
+GPS Position          : 40 deg 41' 21.30" N, 74 deg 2' 40.33" W
+</pre>
+  </section>
+
+
+  <section>
+    <h3>What is ExifExodus?</h3>
+    <p>
+      ExifExodus is a small piece of
+      <a href="https://github.com/dmotz/ExifExodus">open-source code</a> that
+      runs directly in your browser and strips EXIF data out of your photos before
+      you upload them.
+    </p>
+  </section>
+
+  <section>
+    <h3>How does it work?</h3>
+    <p>
+      You can run ExifExodus whenever you&rsquo;re uploading photos by using its
+      bookmarklet (available at the <a href="#bookmarklet">top</a> of this page).
+    </p>
+
+    <p>
+      When ExifExodus encounters a JPG file, it will remove the EXIF data by
+      copying the pixels to a new image file, similar to taking a screenshot of
+      something.
+    </p>
+    <p>
+      Alternatively, you can drop your files in the dropzone at the top of this
+      page and receive versions free of EXIF data. You can then save these new
+      files and upload them wherever you&rsquo;d like.
+    </p>
+  </section>
+
+  <section>
+    <h3>Is EXIF without merit?</h3>
+    <p>
+      That&rsquo;s certainly not the implication of this project. Metadata adds
+      another dimension to photos and is valuable for preserving context.
+      This project aims to educate and give users a choice in the matter of sharing
+      it with specific services (and the web at large).
+    </p>
+  </section>
+
+  <section>
+    <h3>Doesn&rsquo;t Facebook (etc.) remove EXIF data before displaying photos?</h3>
+    <p>
+      Yes. Although this prevents the general public from accessing your EXIF data,
+      you should be aware that the end recipient is free to use or store the metadata
+      before removing it.
+    </p>
+  </section>
+
+  <section>
+    <h3>Any caveats?</h3>
+    <p>
+      The ExifExodus bookmarklet won&rsquo;t work with any site that uses Flash
+      (or any other proprietary plugins like Silverlight) to upload files.
+      For such sites, use the dropzone converter, save the output files, and upload
+      those instead.
+    </p>
+    <p>
+      ExifExodus only works with JPG files (which is the most common image
+      format to carry EXIF metadata).
+    </p>
+  </section>
+
+  <section>
+    <h3>Who made this?</h3>
+    <p>
+      Dan Motzenbecker
+      <br>
+      + <a href="http://oxism.com">oxism.com</a>
+      <br>
+      + <a href="https://twitter.com/dcmotz">@dcmotz</a> &lt;-- follow me for more
+      things like this.
+      <br>
+      + <a href="https://github.com/dmotz">github/dmotz</a>
+    </p>
+  </section>
+
+  <footer>
+    &infin; <a href="http://oxism.com">oxism.com</a>
+  </footer>
+
+  <script src="assets/js/site.js"></script>
+
+</body>
+</html>
+
