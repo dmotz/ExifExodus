@@ -151,8 +151,6 @@
         canvas.width = width;
         canvas.height = height;
         canvas.getContext('2d').drawImage(img, 0, 0, width, height);
-        canvas.getContext('2d').fillStyle = 'rgb(255,0,255)';
-        canvas.getContext('2d').fillRect(0, 0, width, height);
         if (canvas.toBlob) {
           return canvas.toBlob(cb, jpgType, jpgQual);
         } else {
