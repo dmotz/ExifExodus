@@ -20,7 +20,14 @@ gulp.task 'scripts', ->
     .pipe coffee().on 'error', gutil.log
     .pipe uglify()
     .pipe rename 'exifexodus.min.js'
-    .pipe gulp.dest './assets/js/'
+    .pipe gulp.dest 'assets/js/'
+
+  gulp.src 'assets/src/site.coffee'
+    .pipe srcMap.init()
+    .pipe coffee().on 'error', gutil.log
+    .pipe uglify()
+    .pipe srcMap.write '.'
+    .pipe gulp.dest 'assets/js/'
 
 
 gulp.task 'styles', ->
@@ -32,7 +39,7 @@ gulp.task 'styles', ->
 gulp.task 'watch', ->
   lr.listen()
   gulp.watch 'exifexodus.coffee', ['scripts']
-  gulp.watch 'assets/js/', ['scripts']
+  gulp.watch 'assets/src/site.coffee', ['scripts']
   gulp.watch 'assets/src/exifexodus.styl', ['styles']
   for path in ['index.html', 'assets/js/*', 'assets/css/*']
     gulp.watch(path).on 'change', lr.changed
