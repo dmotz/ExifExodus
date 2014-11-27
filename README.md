@@ -1,6 +1,6 @@
 [![ExifExodus](http://exifexodus.com/assets/images/logo.svg)](http://exifexodus.com)
 
-### Remove EXIF/geotag data from your photos before you upload them.
+### Remove EXIF/GPS data from your photos before you upload them.
 
 [Dan Motzenbecker](http://oxism.com), MIT License
 
