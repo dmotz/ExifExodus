@@ -3,54 +3,47 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="description" content="ExifExodus removes EXIF / GPS data from your photos">
+  <meta name="description" content="ExifExodus removes GPS data from your photos">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="author" content="Dan Motzenbecker">
   <link href="assets/css/exifexodus.css" rel="stylesheet" type="text/css">
   <link href="assets/images/favicon.png" rel="icon" type="image/png">
   <link href="assets/images/favicon-152.png" rel="apple-touch-icon-precomposed">
-  <title>ExifExodus - Remove EXIF / GPS data from your photos</title>
+  <title>ExifExodus - Remove GPS data from your photos</title>
 </head>
 
 <body>
 
-  <section>
-    <img id="logo" src="assets/images/logo.svg">
-    <h2>
-      <em>Clean up your trail of breadcrumbs:</em>
-      <br>
-      Remove GPS data from your photos before you upload them.
-    </h2>
-    <h2></h2>
-  </section>
+  <div id="logo">
 
-  <div id="fork-me">
-    <a href="https://github.com/dmotz/ExifExodus">fork me</a>
-  </div>
+    <img id="logo-lines" src="assets/images/logo-lines.svg">
 
-  <section id="actions">
+    <div id="logo-text">
+      <h1>ExifExodus</h1>
+      <h2>Remove GPS data from your photos <em>before</em> you share them online.</h2>
+    </div>
+
     <div id="photo-drop">
-      <p>Drop JPG files here to remove EXIF / GPS data.</p>
+      <p>Drag &amp; drop JPG files here to remove GPS data.</p>
       <div>+</div>
     </div>
 
-    <div id="bookmarklet">
-      &hellip;or drag this bookmarklet to your bookmarks bar:
-      <br>
-      <a href="javascript:(function(d){d.body.appendChild(d.createElement('script')).src='http://exifexodus.com/assets/js/exifexodus.min.js'})(document)"
-        id="bookmarklet-btn" title="ExifExodus">ExifExodus</a>
-      <br>
-      Then click it before you upload photos on a site.
-    </div>
-  </section>
-
-  <br>
+  </div>
 
   <section id="output" class="hidden">
     <h2>Save these copies (the EXIF data has been removed):</h2>
   </section>
 
-  <br>
+  <section id="actions">
+    <div id="bookmarklet">
+      You can also drag this bookmarklet to your bookmarks bar:
+      <br>
+      <a href="javascript:(function(d){d.body.appendChild(d.createElement('script')).src='http://exifexodus.com/assets/js/exifexodus.min.js'})(document)"
+        id="bookmarklet-btn" title="ExifExodus">ExifExodus</a>
+      <br>
+      Click it before you upload photos on a site to automatically remove GPS data.
+    </div>
+  </section>
 
   <section>
     <h3>What is EXIF?</h3>
@@ -97,7 +90,6 @@ GPS Position          : 40 deg 41' 21.30" N, 74 deg 2' 40.33" W
 
   </section>
 
-
   <section>
     <h3>What is ExifExodus?</h3>
     <p>
@@ -106,6 +98,7 @@ GPS Position          : 40 deg 41' 21.30" N, 74 deg 2' 40.33" W
       runs directly in your browser and strips EXIF data out of your photos before
       you upload them.
     </p>
+    <p>None of your data is sent to any servers to do so.<p>
   </section>
 
   <section>
@@ -174,7 +167,15 @@ GPS Position          : 40 deg 41' 21.30" N, 74 deg 2' 40.33" W
     </p>
   </section>
 
+  <section>
+    <h3>Can I add to or fix something in the code?</h3>
+    <p>
+      <a href="https://github.com/dmotz/ExifExodus">Fork it</a>.
+    </p>
+  </section>
+
   <footer>
+    <span>libertas ex spectris</span>
     &infin; <a href="http://oxism.com">oxism.com</a>
   </footer>
 
@@ -185,7 +186,6 @@ GPS Position          : 40 deg 41' 21.30" N, 74 deg 2' 40.33" W
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
     ga('create', 'UA-56797993-1', 'auto');
     ga('send', 'pageview');
   </script>
