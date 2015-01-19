@@ -2,8 +2,10 @@
 
 $helv    = 'Helvetica Neue', Helvetica, Arial, sans-serif
 $advBold = 'adv', $helv
+$mono    = Consolas, 'Lucida Console', 'DejaVu Sans Mono', Monaco, 'Courier New', monospace
 $bgColor = #f6f7f9
 $teal    = #22d3ad
+$pink    = #EF187A
 
 @font-face
   font-family: 'adv'
@@ -38,41 +40,64 @@ html
   text-rendering: optimizeLegibility
   font-smoothing: antialiased
   color #222
+  background-color #333
 
 body
-  margin 0 auto
-  width 80%
-  max-width 75rem
+  margin 0
+  padding 0
+  padding-bottom 2rem
+
 
 #logo
-  margin-top 4rem
   width 100%
+  background-color #333
+  padding 0
+  margin 0 auto
+  max-width 180rem
+  position relative
+
+  img
+    width 100%
+    margin 0
+    padding 0
+
+
+#logo-lines
+  opacity .3
+  position relative
+  z-index 100
+  pointer-events none
+
+
+#logo-text
+  position absolute
+  top 5vw
+  left 8rem
+  line-height 1
+  font-size 4vw
+  color $teal
+
+  h1
+    margin 0
+    display inline-block
+    background-color #222
+    padding 1rem 2rem
+    padding-bottom 2.5rem
+    line-height 1
+
+  h2
+    color #fff
+    font-size 3vw
+    width 50%
+    padding-left 2.5rem
+
+    em
+      font-style normal
+      text-decoration underline
 
 
 h1, h2, h3
   font-family $advBold
-
-
-h1
-  font-size 12rem
-  line-height .9
-  letter-spacing -.2rem
-  margin 2rem 0
-  color #444
-  position relative
-  left -.8rem
-
-
-h2
-  font-size 3rem
-  width 80%
-  line-height 1.3
-  color #999
-  margin-bottom 4rem
-
-  em
-    font-style normal
-    color #555
 
 
 h4
@@ -84,53 +109,42 @@ h4
 section
   position relative
   clear both
-
-
-#fork-me
-  position absolute
-  top 4rem
-  left -6rem
-  font-size 2rem
-  transform: rotate(-45deg)
-  overflow hidden
-
-  a
-    font-family monospace
-    color #fff
-    background-color #444
-    padding 0.5rem 7rem
-    display inline-block
-
-    &:hover
-      opacity .8
+  margin 0 auto
+  width 80%
+  max-width 80rem
+  color #eee
 
 
 #actions
-  float left
-  width 100%
-  margin-bottom 7rem
+  width 80%
+  margin 0 auto
+  margin-top 5rem
 
 
 #photo-drop, #bookmarklet
-  font-size 2rem
   font-weight 600
-  display inline-block
+  display block
   color #555
-  width 30rem
 
 
 #photo-drop
-  float left
-  border 1.8rem dashed #555
+  border 1vw solid $pink
   width 30rem
   height 30rem
   padding 0 2rem
   text-align center
   position relative
-  top 2rem
+  top 15%
   right 0
-  background-color #fff
+  background-color rgba(0, 0, 0, .5)
   overflow hidden
+  position absolute
+  margin-right 10%
+  z-index 1000
+  width 22vw
+  height 22vw
+  max-width 40rem
+  max-height 40rem
 
   > *
     pointer-events none
@@ -142,15 +156,17 @@ section
       transform translateY(500%)
 
     > div
-      color #ccc
+      color #333
 
   > p
     position relative
+    font-size 2vw
     font-family $helv
     z-index 1
     top 50%
     transform translateY(-50%)
     margin 0
+    color #fff
     transition transform .3s
 
   > div
@@ -163,31 +179,46 @@ section
     left 0
     transform translateY(-50%)
     line-height 1
-    color #eee
+    color rgba(255, 255, 255, .25)
     margin 0
 
 
+
 #bookmarklet
-  float right
   text-align center
   margin-top 6rem
+  color #ccc
+  margin 0 auto
+  max-width 50rem
+  font-size 2.2rem
+  background-color #444
+  padding 2rem
+  margin-bottom 8rem
 
   a
-    background-color #f48972
-    color #fff
+    background-color $teal
+    color #333
     text-decoration none
-    font-size 3.2rem
+    font-size 3rem
     padding 1rem
+    padding-top 1.5rem
     cursor move
     display inline-block
     margin 2rem 0
     letter-spacing -1px
+    font-family $mono
+    font-weight 100
+    font-style italic
+
 
     &:hover
       opacity .8
 
 
 #output
+  h2
+    font-family $helv
+    font-size 2rem
 
   img
     max-width 40%
@@ -195,7 +226,6 @@ section
     margin-right 1%
     margin-bottom 1%
     display inline-block
-    outline 1px solid #aaa
 
   &.hidden
     display none
@@ -204,29 +234,11 @@ section
 h3
   font-size 3.5rem
 
-  em
-    font-style normal
-    background-color #ccc
-    color $bgColor
-    border-radius 50%
-    width 4rem
-    height 4rem
-    font-size 2.5rem
-    line-height 1.4
-    letter-spacing -.2rem
-    display inline-block
-    text-align center
-    margin-right 2rem
-    position relative
-    top -.2rem
-    margin-left -6.5rem
-    display none
-
 
 p
-  font-family monospace
-  font-size 1.9rem
-  color #555
+  font-family $mono
+  font-size 2.1rem
+  color #bbb
   line-height 1.5
 
   a
@@ -235,15 +247,17 @@ p
     border-bottom 1px dashed #999
 
     &:hover
-      color #999
+      color $pink
 
 
 pre
-  background-color #333
-  color #fff
+  background-color #222
+  color #eee
   padding 1rem
   font-size 1.4rem
   font-weight bold
+  font-family $mono
+  line-height 1.5
   border-radius 2px
   overflow hidden
 
@@ -252,37 +266,58 @@ footer
   text-align center
   margin 10rem 0
   font-size 2rem
+  font-family $mono
+  color #444
 
   a
-    color #444
+    color #555
 
 
-@media only screen and (max-width: 770px)
+@media only screen and (max-width: 670px)
 
-  body
+  section
     width 90%
 
 
-  h2
-    width 100%
+  #output
+    margin-top 10rem
 
 
-  #fork-me
-    display none
-
-
-  #photo-drop, #bookmarklet
-    display block
-    float none
-    margin 0 auto
+  #actions
+    margin-top 10rem
 
 
   #bookmarklet
-    margin-top 8rem
+    font-size 1.7rem
+
+
+  #logo-text
+    margin 0 auto
+    font-size 3rem
+    left 0
+
+    h2
+      font-size 2rem
+      width 80%
 
 
   #photo-drop
     width 22rem
     height 22rem
     border-width 1rem
+    margin-top -2rem
+    margin-right 1rem
+    display none
+
+
+@media only screen and (min-width: 1600px)
+  #logo-text
+    h1
+      font-size 14rem
+
+    h2
+      font-size 5.5rem
+
+  #photo-drop > p
+    font-size 4rem
 
