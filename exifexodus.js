@@ -1,7 +1,7 @@
 
 /*
  * ExifExodus
- * 0.0.0
+ * 0.0.1
  * Dan Motzenbecker
  * http://oxism.com
  */
@@ -9,11 +9,26 @@
 (function() {
   var blobWorker, cleanImage, cleaned, cons, createBlob, fdAppend, formSubmit, frMethods, headerSize, init, jpgQual, jpgType, method, ns, onSubmit, reportErr, xhrOpen, xhrSend, _fn, _i, _j, _len, _len1, _ref, _ref1;
 
+  reportErr = function(msg, imgSet) {
+    var blob, _i, _len;
+    if (imgSet) {
+      if (confirm("ExifExodus: " + msg + " Click OK to open your EXIF-free images in new tabs.")) {
+        for (_i = 0, _len = imgSet.length; _i < _len; _i++) {
+          blob = imgSet[_i];
+          open(URL.createObjectURL(blob), '_blank');
+        }
+        return null;
+      }
+    } else {
+      return alert('ExifExodus: ' + msg);
+    }
+  };
+
   _ref = ['HTMLCanvasElement', 'FileReader', 'FormData', 'Uint8Array', 'ArrayBuffer', 'Blob', 'URL', 'Worker'];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     cons = _ref[_i];
     if (!(cons in window)) {
-      reportErr("Your browser is too old to support ExifExodus. (Missing " + cons + " support)");
+      reportErr("Your browser is too old to support ExifExodus. (Missing " + cons + " support). Try using a modern browser like Chrome, Firefox, or Safari.");
       return false;
     }
   }
@@ -245,21 +260,6 @@
       })(jpg));
     }
     return _results;
-  };
-
-  reportErr = function(msg, imgSet) {
-    var blob, _k, _len2;
-    if (imgSet) {
-      if (confirm("ExifExodus: " + msg + " Click OK to open your EXIF-free images in new tabs.")) {
-        for (_k = 0, _len2 = imgSet.length; _k < _len2; _k++) {
-          blob = imgSet[_k];
-          open(URL.createObjectURL(blob), '_blank');
-        }
-        return null;
-      }
-    } else {
-      return alert('ExifExodus: ' + msg);
-    }
   };
 
   init = function() {
