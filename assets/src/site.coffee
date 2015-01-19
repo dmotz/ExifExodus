@@ -51,7 +51,24 @@ cleanImage = (file, cb) ->
   reader.readAsDataURL file
 
 
+wWidth = wHeight = 1
+
+setDimensions = ->
+  wWidth  = window.innerWidth
+  wHeight = window.innerHeight
+
+
 document.addEventListener 'DOMContentLoaded', ->
+  setDimensions()
+  logo = document.getElementById 'logo-text'
+
+  addEventListener 'mousemove', ({x, y}) ->
+    logo.style.transform =
+      "translate3d(#{ (x - (wWidth / 2)) / -100 }px, #{ (y - (wHeight / 2)) / -100 }px, 0)"
+
+
+  addEventListener 'resize', setDimensions
+
 
   document.getElementById('bookmarklet-btn').addEventListener 'click', (e) ->
     e.preventDefault()
