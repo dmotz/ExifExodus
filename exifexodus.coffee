@@ -18,7 +18,10 @@ reportErr = (msg, imgSet) ->
 for cons in ['HTMLCanvasElement', 'FileReader', 'FormData',
              'Uint8Array', 'ArrayBuffer', 'Blob', 'URL', 'Worker']
   unless cons of window
-    reportErr "Your browser is too old to support ExifExodus. (Missing #{ cons } support)"
+    reportErr "
+      Your browser is too old to support ExifExodus. (Missing #{ cons } support).
+      Try using a modern browser like Chrome, Firefox, or Safari."
+
     return false
 
 
