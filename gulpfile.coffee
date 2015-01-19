@@ -1,12 +1,16 @@
-gulp   = require 'gulp'
-gutil  = require 'gulp-util'
-rename = require 'gulp-rename'
-srcMap = require 'gulp-sourcemaps'
-coffee = require 'gulp-coffee'
-stylus = require 'gulp-stylus'
-uglify = require 'gulp-uglify'
-lr     = require 'gulp-livereload'
-nib    = require 'nib'
+gulp    = require 'gulp'
+gutil   = require 'gulp-util'
+rename  = require 'gulp-rename'
+srcMap  = require 'gulp-sourcemaps'
+coffee  = require 'gulp-coffee'
+stylus  = require 'gulp-stylus'
+uglify  = require 'gulp-uglify'
+lr      = require 'gulp-livereload'
+nib     = require 'nib'
+http    = require 'http'
+connect = require 'connect'
+staticS = require 'serve-static'
+port    = 3333
 
 
 gulp.task 'scripts', ->
@@ -36,7 +40,12 @@ gulp.task 'styles', ->
     .pipe gulp.dest 'assets/css/'
 
 
-gulp.task 'watch', ->
+gulp.task 'server', ->
+  http.createServer(connect().use staticS '.').listen port
+  console.log "\nserver on port #{ port }\n"
+
+
+gulp.task 'watch', ['server'], ->
   lr.listen()
   gulp.watch 'exifexodus.coffee', ['scripts']
   gulp.watch 'assets/src/site.coffee', ['scripts']
