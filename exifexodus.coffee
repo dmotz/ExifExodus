@@ -5,6 +5,16 @@
 # http://oxism.com
 ###
 
+
+reportErr = (msg, imgSet) ->
+  if imgSet
+    if confirm "ExifExodus: #{ msg } Click OK to open your EXIF-free images in new tabs."
+      open URL.createObjectURL(blob), '_blank' for blob in imgSet
+      null
+  else
+    alert 'ExifExodus: ' + msg
+
+
 for cons in ['HTMLCanvasElement', 'FileReader', 'FormData',
              'Uint8Array', 'ArrayBuffer', 'Blob', 'URL', 'Worker']
   unless cons of window
@@ -175,15 +185,6 @@ onSubmit = (e) ->
 
         xhrOpen.call xhr, form.getAttribute('method') or 'GET', action
         xhrSend.call xhr, formData
-
-
-reportErr = (msg, imgSet) ->
-  if imgSet
-    if confirm "ExifExodus: #{ msg } Click OK to open your EXIF-free images in new tabs."
-      open URL.createObjectURL(blob), '_blank' for blob in imgSet
-      null
-  else
-    alert 'ExifExodus: ' + msg
 
 
 init = -> addEventListener 'submit', onSubmit, true
