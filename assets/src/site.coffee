@@ -76,7 +76,7 @@ document.addEventListener 'DOMContentLoaded', ->
     @className = ''
     for file in e.dataTransfer.files then do (file) ->
       unless file.type is jpgType
-        alert 'Sorry, ExifExodus only works with JPG files.'
+        return alert 'Sorry, ExifExodus only works with JPG files.'
 
       cleanImage file, (blob) ->
         img     = document.createElement 'img'
