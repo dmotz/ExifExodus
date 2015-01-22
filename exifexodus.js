@@ -1,13 +1,14 @@
 
 /*
  * ExifExodus
- * 0.0.1
+ * 0.0.2
  * Dan Motzenbecker
  * http://oxism.com
  */
 
 (function() {
-  var blobWorker, cleanImage, cleaned, cons, createBlob, fdAppend, formSubmit, frMethods, headerSize, init, jpgQual, jpgType, method, ns, onSubmit, reportErr, xhrOpen, xhrSend, _fn, _i, _j, _len, _len1, _ref, _ref1;
+  var blobWorker, cleanImage, cons, createBlob, fdAppend, formSubmit, frMethods, headerSize, init, jpgQual, jpgType, method, ns, onSubmit, reportErr, xhrOpen, xhrSend, _fn, _i, _j, _len, _len1, _ref, _ref1,
+    __hasProp = {}.hasOwnProperty;
 
   reportErr = function(msg, imgSet) {
     var blob, _i, _len;
@@ -40,8 +41,6 @@
   jpgQual = 1;
 
   headerSize = 'data:image/jpeg;base64,'.length;
-
-  cleaned = {};
 
   frMethods = {};
 
@@ -79,6 +78,7 @@
       formData = new FormData;
       _ref2 = data[ns];
       for (key in _ref2) {
+        if (!__hasProp.call(_ref2, key)) continue;
         val = _ref2[key];
         if (val.file && val.file instanceof File) {
           jpgs.push(val);
@@ -182,7 +182,7 @@
   };
 
   onSubmit = function(e) {
-    var action, file, form, formData, input, inputs, isEvent, jpg, jpgs, toClean, _k, _l, _len2, _len3, _len4, _m, _ref2, _results;
+    var action, cleaned, file, form, formData, input, inputs, isEvent, jpg, jpgs, toClean, _fn1, _k, _l, _len2, _len3, _len4, _m, _ref2;
     isEvent = e instanceof Event;
     form = isEvent ? e.target : this;
     inputs = form.querySelectorAll('input');
@@ -222,44 +222,44 @@
       return reportErr('Can\'t proceed, the upload form has no action URL.', cleaned);
     }
     toClean = jpgs.length;
-    _results = [];
+    _fn1 = function(jpg) {
+      return cleanImage(jpg.file, function(blob) {
+        var xhr;
+        cleaned.push(blob);
+        fdAppend.call(formData, jpg.name, blob, jpg.file.name);
+        if (!--toClean) {
+          xhr = new XMLHttpRequest;
+          xhr.onreadystatechange = function() {
+            var target, _ref3, _ref4;
+            if (xhr.readyState === 4) {
+              if (!((200 >= (_ref3 = xhr.status) && _ref3 < 300))) {
+                return reportErr("Attempted upload of EXIF-free images but received an error response from the server (code " + xhr.status + ").", cleaned);
+              }
+              if (xhr.responseType === 'document' || /<[\w\W]*>/.test(xhr.responseText)) {
+                if (target = form.getAttribute('target')) {
+                  if (target !== '_blank' && target !== '_self' && target !== '_parent' && target !== '_top') {
+                    return (_ref4 = document.getElementById(target)) != null ? _ref4.innerHTML = xhr.response : void 0;
+                  }
+                }
+                return document.write(xhr.response);
+              } else {
+                return reportErr('Uploaded image but received ambiguous response from server.', cleaned);
+              }
+            }
+          };
+          xhr.onerror = function() {
+            return reportErr('Something went wrong submitting the upload form.', cleaned);
+          };
+          xhrOpen.call(xhr, form.getAttribute('method') || 'GET', action);
+          return xhrSend.call(xhr, formData);
+        }
+      });
+    };
     for (_m = 0, _len4 = jpgs.length; _m < _len4; _m++) {
       jpg = jpgs[_m];
-      _results.push((function(jpg) {
-        return cleanImage(jpg.file, function(blob) {
-          var xhr;
-          cleaned.push(blob);
-          fdAppend.call(formData, jpg.name, blob, jpg.file.name);
-          if (!--toClean) {
-            xhr = new XMLHttpRequest;
-            xhr.onreadystatechange = function() {
-              var target, _ref3, _ref4;
-              if (xhr.readyState === 4) {
-                if (!((200 >= (_ref3 = xhr.status) && _ref3 < 300))) {
-                  return reportErr("Attempted upload of EXIF-free images but received an error response from the server (code " + xhr.status + ").", cleaned);
-                }
-                if (xhr.responseType === 'document' || /<[\w\W]*>/.test(xhr.responseText)) {
-                  if (target = form.getAttribute('target')) {
-                    if (target !== '_blank' && target !== '_self' && target !== '_parent' && target !== '_top') {
-                      return (_ref4 = document.getElementById(target)) != null ? _ref4.innerHTML = xhr.response : void 0;
-                    }
-                  }
-                  return document.write(xhr.response);
-                } else {
-                  return reportErr('Uploaded image but received ambiguous response from server.', cleaned);
-                }
-              }
-            };
-            xhr.onerror = function() {
-              return reportErr('Something went wrong submitting the upload form.', cleaned);
-            };
-            xhrOpen.call(xhr, form.getAttribute('method') || 'GET', action);
-            return xhrSend.call(xhr, formData);
-          }
-        });
-      })(jpg));
+      _fn1(jpg);
     }
-    return _results;
+    return null;
   };
 
   init = function() {

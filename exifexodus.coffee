@@ -1,6 +1,6 @@
 ###
 # ExifExodus
-# 0.0.1
+# 0.0.2
 # Dan Motzenbecker
 # http://oxism.com
 ###
