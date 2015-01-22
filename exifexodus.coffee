@@ -29,7 +29,6 @@ ns         = 'exifexodus'
 jpgType    = 'image/jpeg'
 jpgQual    = 1
 headerSize = 'data:image/jpeg;base64,'.length
-cleaned    = {}
 frMethods  = {}
 xhrSend    = XMLHttpRequest::send
 xhrOpen    = XMLHttpRequest::open
