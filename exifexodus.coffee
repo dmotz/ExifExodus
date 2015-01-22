@@ -188,6 +188,8 @@ onSubmit = (e) ->
         xhrOpen.call xhr, form.getAttribute('method') or 'GET', action
         xhrSend.call xhr, formData
 
+  null
+
 
 init = -> addEventListener 'submit', onSubmit, true
 
