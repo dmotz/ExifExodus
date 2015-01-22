@@ -50,7 +50,7 @@ XMLHttpRequest::send = (data) ->
   if data instanceof FormData and data[ns]
     jpgs     = []
     formData = new FormData
-    for key, val of data[ns]
+    for own key, val of data[ns]
       if val.file and val.file instanceof File
         jpgs.push val
       else
