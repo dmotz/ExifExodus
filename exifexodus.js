@@ -7,15 +7,15 @@
  */
 
 (function() {
-  var blobWorker, cleanImage, cons, createBlob, fdAppend, formSubmit, frMethods, headerSize, init, jpgQual, jpgType, method, ns, onSubmit, reportErr, xhrOpen, xhrSend, _fn, _i, _j, _len, _len1, _ref, _ref1,
-    __hasProp = {}.hasOwnProperty;
+  var blobWorker, cleanImage, cons, createBlob, fdAppend, fn, formSubmit, frMethods, headerSize, init, j, jpgQual, jpgType, k, len1, len2, method, ns, onSubmit, ref, ref1, reportErr, xhrOpen, xhrSend,
+    hasProp = {}.hasOwnProperty;
 
   reportErr = function(msg, imgSet) {
-    var blob, _i, _len;
+    var blob, j, len1;
     if (imgSet) {
       if (confirm("ExifExodus: " + msg + " Click OK to open your EXIF-free images in new tabs.")) {
-        for (_i = 0, _len = imgSet.length; _i < _len; _i++) {
-          blob = imgSet[_i];
+        for (j = 0, len1 = imgSet.length; j < len1; j++) {
+          blob = imgSet[j];
           open(URL.createObjectURL(blob), '_blank');
         }
         return null;
@@ -25,9 +25,9 @@
     }
   };
 
-  _ref = ['HTMLCanvasElement', 'FileReader', 'FormData', 'Uint8Array', 'ArrayBuffer', 'Blob', 'URL', 'Worker'];
-  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-    cons = _ref[_i];
+  ref = ['HTMLCanvasElement', 'FileReader', 'FormData', 'Uint8Array', 'ArrayBuffer', 'Blob', 'URL', 'Worker'];
+  for (j = 0, len1 = ref.length; j < len1; j++) {
+    cons = ref[j];
     if (!(cons in window)) {
       reportErr("Your browser is too old to support ExifExodus. (Missing " + cons + " support). Try using a modern browser like Chrome, Firefox, or Safari.");
       return false;
@@ -52,8 +52,8 @@
 
   formSubmit = HTMLFormElement.prototype.submit;
 
-  _ref1 = ['readAsDataURL', 'readAsArrayBuffer', 'readAsBinaryString', 'readAsText'];
-  _fn = function(method) {
+  ref1 = ['readAsDataURL', 'readAsArrayBuffer', 'readAsBinaryString', 'readAsText'];
+  fn = function(method) {
     frMethods[method] = FileReader.prototype[method];
     return FileReader.prototype[method] = function(file, enc) {
       if (file.type !== jpgType) {
@@ -66,20 +66,20 @@
       })(this));
     };
   };
-  for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
-    method = _ref1[_j];
-    _fn(method);
+  for (k = 0, len2 = ref1.length; k < len2; k++) {
+    method = ref1[k];
+    fn(method);
   }
 
   XMLHttpRequest.prototype.send = function(data) {
-    var formData, jpg, jpgs, key, toClean, val, _fn1, _k, _len2, _ref2;
+    var fn1, formData, jpg, jpgs, key, l, len3, ref2, toClean, val;
     if (data instanceof FormData && data[ns]) {
       jpgs = [];
       formData = new FormData;
-      _ref2 = data[ns];
-      for (key in _ref2) {
-        if (!__hasProp.call(_ref2, key)) continue;
-        val = _ref2[key];
+      ref2 = data[ns];
+      for (key in ref2) {
+        if (!hasProp.call(ref2, key)) continue;
+        val = ref2[key];
         if (val.file && val.file instanceof File) {
           jpgs.push(val);
         } else {
@@ -88,7 +88,7 @@
       }
       if (jpgs.length) {
         toClean = jpgs.length;
-        _fn1 = (function(_this) {
+        fn1 = (function(_this) {
           return function(jpg) {
             return cleanImage(jpg.file, function(blob) {
               fdAppend.call(formData, jpg.name, blob, jpg.filename);
@@ -98,9 +98,9 @@
             });
           };
         })(this);
-        for (_k = 0, _len2 = jpgs.length; _k < _len2; _k++) {
-          jpg = jpgs[_k];
-          _fn1(jpg);
+        for (l = 0, len3 = jpgs.length; l < len3; l++) {
+          jpg = jpgs[l];
+          fn1(jpg);
         }
         return void 0;
       } else {
@@ -135,11 +135,11 @@
   if (!('toBlob' in HTMLCanvasElement.prototype)) {
     createBlob = function() {
       return self.onmessage = function(e) {
-        var binary, i, len, view, _k;
+        var binary, i, l, len, ref2, view;
         binary = e.data;
         len = binary.length;
         view = new Uint8Array(new ArrayBuffer(len));
-        for (i = _k = 0; 0 <= len ? _k < len : _k > len; i = 0 <= len ? ++_k : --_k) {
+        for (i = l = 0, ref2 = len; 0 <= ref2 ? l < ref2 : l > ref2; i = 0 <= ref2 ? ++l : --l) {
           view[i] = binary.charCodeAt(i);
         }
         self.postMessage(new Blob([view.buffer], {
@@ -182,20 +182,20 @@
   };
 
   onSubmit = function(e) {
-    var action, cleaned, file, form, formData, input, inputs, isEvent, jpg, jpgs, toClean, _fn1, _k, _l, _len2, _len3, _len4, _m, _ref2;
+    var action, cleaned, file, fn1, form, formData, input, inputs, isEvent, jpg, jpgs, l, len3, len4, len5, m, n, ref2, toClean;
     isEvent = e instanceof Event;
     form = isEvent ? e.target : this;
     inputs = form.querySelectorAll('input');
     jpgs = [];
     cleaned = [];
     formData = new FormData;
-    for (_k = 0, _len2 = inputs.length; _k < _len2; _k++) {
-      input = inputs[_k];
+    for (l = 0, len3 = inputs.length; l < len3; l++) {
+      input = inputs[l];
       if (input.value) {
         if (input.type === 'file') {
-          _ref2 = input.files;
-          for (_l = 0, _len3 = _ref2.length; _l < _len3; _l++) {
-            file = _ref2[_l];
+          ref2 = input.files;
+          for (m = 0, len4 = ref2.length; m < len4; m++) {
+            file = ref2[m];
             if (file.type === jpgType) {
               jpgs.push({
                 file: file,
@@ -222,7 +222,7 @@
       return reportErr('Can\'t proceed, the upload form has no action URL.', cleaned);
     }
     toClean = jpgs.length;
-    _fn1 = function(jpg) {
+    fn1 = function(jpg) {
       return cleanImage(jpg.file, function(blob) {
         var xhr;
         cleaned.push(blob);
@@ -230,15 +230,15 @@
         if (!--toClean) {
           xhr = new XMLHttpRequest;
           xhr.onreadystatechange = function() {
-            var target, _ref3, _ref4;
+            var ref3, ref4, target;
             if (xhr.readyState === 4) {
-              if (!((200 >= (_ref3 = xhr.status) && _ref3 < 300))) {
+              if (!((200 >= (ref3 = xhr.status) && ref3 < 300))) {
                 return reportErr("Attempted upload of EXIF-free images but received an error response from the server (code " + xhr.status + ").", cleaned);
               }
               if (xhr.responseType === 'document' || /<[\w\W]*>/.test(xhr.responseText)) {
                 if (target = form.getAttribute('target')) {
                   if (target !== '_blank' && target !== '_self' && target !== '_parent' && target !== '_top') {
-                    return (_ref4 = document.getElementById(target)) != null ? _ref4.innerHTML = xhr.response : void 0;
+                    return (ref4 = document.getElementById(target)) != null ? ref4.innerHTML = xhr.response : void 0;
                   }
                 }
                 return document.write(xhr.response);
@@ -255,9 +255,9 @@
         }
       });
     };
-    for (_m = 0, _len4 = jpgs.length; _m < _len4; _m++) {
-      jpg = jpgs[_m];
-      _fn1(jpg);
+    for (n = 0, len5 = jpgs.length; n < len5; n++) {
+      jpg = jpgs[n];
+      fn1(jpg);
     }
     return null;
   };
