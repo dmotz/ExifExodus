@@ -3,9 +3,8 @@
 $helv    = 'Helvetica Neue', Helvetica, Arial, sans-serif
 $advBold = 'adv', $helv
 $mono    = Consolas, 'Lucida Console', 'DejaVu Sans Mono', Monaco, 'Courier New', monospace
-$bgColor = #ddd
-$teal    = #FF5353
-$pink    = #fff
+$bgColor = #fff
+$teal    = #00FFC6
 
 @font-face
   font-family: 'adv'
@@ -44,13 +43,14 @@ html
 
 body
   margin 0
-  padding 0
-  padding-bottom 2rem
+  padding 5rem 0
+  text-align center
+  width 80rem
+  margin 0 auto
 
 
 #logo
   width 100%
-  background-color $bgColor
   padding 0
   margin 0 auto
   max-width 100rem
@@ -70,30 +70,33 @@ body
 
 #logo-text
   position absolute
-  top 1vw
-  left 2rem
+  text-align left
+  top -2.5rem
+  left -2.5rem
   line-height 1
-  font-size 4vw
+  font-size 4rem
   color $teal
 
   h1
-    font-family $advBold
-    color #eee
+    font-family $helv
+    color #fff
     margin 0
     display inline-block
-    background-color rgba(255, 0, 0, .7)
+    background-color rgba(0, 255, 198, .7)
     padding 1rem 2rem
-    padding-bottom 2.5rem
+    padding-bottom 1.7rem
+    letter-spacing -0.2rem
     line-height 1
 
   h2
     color #555
-    font-weight 200
-    font-size 3.6vw
-    width 50%
+    font-weight bold
+    font-size 3.8rem
+    width 80%
     padding-left 2.5rem
     line-height 1.3
     margin-top 1rem
+    letter-spacing -0.2rem
 
 
 h1, h2, h3
@@ -121,43 +124,44 @@ section
   margin 0 auto
   margin-top 5rem
 
+header
+  position relative
+  height 40rem
 
 #photo-drop, #bookmarklet
   font-weight 600
   display block
+  position absolute
   color #555
 
 
 #photo-drop
-  border 1.5vw solid #eee
-  border-bottom-width 3.5vw
-  width 40rem
-  height 40rem
+  left 0
+  border 2rem solid #eee
+  border-bottom-width 4.5rem
+  width 32rem
+  height 32rem
   padding 0 2rem
   text-align center
   background-color #444
   overflow hidden
-  width 22vw
-  height 22vw
-  min-width 30rem
-  min-height 30rem
   margin-top 5rem
 
   > *
     pointer-events none
 
   &.drag-hover
-    border-color #fff
+    border-color #ddd
 
     > p
       transform translateY(500%)
 
     > div
-      color #333
+      color #fff
 
   > p
+    text-align center
     position relative
-    font-size 3.5vw
     font-family $helv
     z-index 1
     top 50%
@@ -165,6 +169,8 @@ section
     margin 0
     color #fff
     transition transform .3s
+    color $teal
+    font-size 2.5rem
 
   > div
     font-weight bold
@@ -182,19 +188,21 @@ section
 
 
 #bookmarklet
+  right 0
+  top 5rem
   text-align center
   margin-top 6rem
   color #888
   margin 0 auto
-  max-width 50rem
+  max-width 42rem
   font-size 2.2rem
-  background-color #ccc
+  background-color #eee
   padding 2rem
   margin-bottom 8rem
 
   a
     background-color #444
-    color #eee
+    color $teal
     text-decoration none
     font-size 3rem
     padding 1rem
@@ -234,9 +242,11 @@ h3
   font-size 3.5rem
   color #666
   font-weight 200
+  text-align left
 
 
 p
+  text-align left
   font-family $mono
   font-size 2rem
   color #444
@@ -248,10 +258,11 @@ p
     border-bottom 1px dashed #999
 
     &:hover
-      color $pink
+      color #0000ff
 
 
 pre
+  text-align left
   background-color #444
   color #eee
   padding 1rem
@@ -272,52 +283,3 @@ footer
 
   a
     color #555
-
-
-@media only screen and (max-width: 500px)
-
-  section
-    width 90%
-
-
-  #output
-    margin-top 10rem
-
-
-  #actions
-    margin-top 10rem
-
-
-  #bookmarklet
-    font-size 1.7rem
-
-
-  #logo-lines
-    visibility hidden
-
-
-  #logo-text
-    margin 0 auto
-    font-size 3rem
-    left 0
-
-    h2
-      font-size 2rem
-      width 80%
-
-  #photo-drop
-    border none
-
-
-
-@media only screen and (min-width: 888px)
-  #logo-text
-    h1
-      font-size 8rem
-
-    h2
-      font-size 3.6rem
-
-  #photo-drop > p
-    font-size 2.8rem
-

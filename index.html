@@ -25,24 +25,24 @@
 
   </div>
 
-  <section id="photo-drop">
-    <p>Drag &amp; drop JPG files here to remove GPS data.</p>
-    <div>+</div>
-  </section>
+  <header>
+    <section id="photo-drop">
+      <p>Drag &amp; drop JPG files here to remove GPS data.</p>
+      <div>+</div>
+    </section>
 
-  <section id="output" class="hidden">
-    <h2>Save these copies (the EXIF has been removed):</h2>
-  </section>
-
-  <section id="actions">
-    <div id="bookmarklet">
+    <section id="bookmarklet">
       You can also drag this bookmarklet to your bookmarks bar:
       <br>
       <a href="javascript:(function(d){d.body.appendChild(d.createElement('script')).src='http://exifexodus.com/assets/js/exifexodus.min.js'})(document)"
         id="bookmarklet-btn" title="ExifExodus">ExifExodus</a>
       <br>
       Click it before you upload photos on a site to automatically remove GPS data.
-    </div>
+    </section>
+  </header>
+
+  <section id="output" class="hidden">
+    <h2>Save these copies (the EXIF has been removed):</h2>
   </section>
 
   <section id="what-is-exifexodus">
