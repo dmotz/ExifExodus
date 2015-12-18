@@ -5,10 +5,15 @@
     "type": "git",
     "url": "https://github.com/dmotz/ExifExodus.git"
   },
-  "author": "Dan Motzenbecker",
+  "author": {
+    "name": "Dan Motzenbecker",
+    "url": "http://oxism.com",
+    "email": "dan@oxism.com"
+  },
   "bugs": {
     "url": "https://github.com/dmotz/ExifExodus/issues"
   },
+  "license": "MIT",
   "homepage": "http://exifexodus.com",
   "devDependencies": {
     "coffee-script": "^1.8.0",
