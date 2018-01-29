@@ -1,4 +1,4 @@
-#[ExifExodus](http://exifexodus.com)
+# [ExifExodus](http://exifexodus.com)
 
 ### Remove EXIF/GPS data from your photos before you upload them.
 
