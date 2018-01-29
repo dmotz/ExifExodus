@@ -1,4 +1,4 @@
-#[ExifExodus](http://exifexodus.com)
+# [ExifExodus](https://oxism.com/ExifExodus/)
 
 ### Remove EXIF/GPS data from your photos before you upload them.
 
@@ -34,14 +34,14 @@ you upload them.
 
 ## How does it work?
 You can run ExifExodus whenever you&rsquo;re uploading photos by using its
-bookmarklet (available on the [site](http://exifexodus.com))
+bookmarklet (available on the [site](https://oxism.com/ExifExodus/))
 
 When ExifExodus encounters a JPG file, it will remove the EXIF data by
 copying the pixels to a new image file, similar to taking a screenshot of
 something.
 
 Alternatively, you can drop your files in the dropzone at the top of the
-[site](http://exifexodus.com)) and receive versions free of EXIF data. You can
+[site](https://oxism.com/ExifExodus/)) and receive versions free of EXIF data. You can
 then save these new files and upload them wherever you&rsquo;d like.
 
 
